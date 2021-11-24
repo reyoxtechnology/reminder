@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "89365111326",
+    "project_id": "leadership-nugget",
+    "storage_bucket": "leadership-nugget.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89365111326:android:86a386945a85d15678440f",
+        "android_client_info": {
+          "package_name": "com.project.leadership_nuggets"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89365111326-ct5cth42drmm0gqdj7ser997s9370k0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtAFQG6AxBv1pkubTNFJMORRQDwcvgD8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "89365111326-ct5cth42drmm0gqdj7ser997s9370k0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
