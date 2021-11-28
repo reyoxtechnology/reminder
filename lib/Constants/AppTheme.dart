@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  static const Color hash = Color(0xFFDDDDDD);
   static const Color darkGreen = Color(0xFF034328);
   static const Color paleGreen = Color(0xFFDAFFDB);
   static const Color offWhite = Color(0xFFFAFAFA);

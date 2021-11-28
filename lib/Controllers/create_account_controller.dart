@@ -6,8 +6,8 @@ import 'package:leadership_nuggets/Constants/AppTheme.dart';
 import 'package:leadership_nuggets/Models/create_account_model.dart';
 import 'package:leadership_nuggets/Services/http_client.dart';
 import 'package:leadership_nuggets/Utils/flush_bar_helper.dart';
+import 'package:leadership_nuggets/Utils/progress_dialog_helper.dart';
 import 'package:leadership_nuggets/Views/nugget_setting.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateAccountController extends GetxController{
@@ -40,30 +40,28 @@ class CreateAccountController extends GetxController{
       "name": name!, "email": email!, "phone_number": phoneNumber!, "password": password!,
     };
     SharedPreferences signUpUserData = await SharedPreferences.getInstance();
-    Get.context!.loaderOverlay.show();
+    CustomProgressDialog().showDialog(Get.context!, "Loading...");
     await HttpClient().postMethod(headers, body, url).then((value){
       final result = jsonDecode(value.body);
       if(value.statusCode == 200 || value.statusCode == 201){
-        Get.context!.loaderOverlay.hide();
-        final response = getUserDetailsModelResponseFromJson(jsonDecode(value.body));
+        final response = getUserDetailsModelResponseFromJson(value.body);
         signUpUserData.setString("token", response.token);
         signUpUserData.setString("userEmail", response.data.email);
         signUpUserData.setString("userName", response.data.name);
+        signUpUserData.setString("userPhoneNumber", phoneNumber!);
+        signUpUserData.setString("userPassword", password!);
+        signUpUserData.setString("interest", "");
+        signUpUserData.setString("gender", "");
         signUpUserData.setBool('isLoggedIn', true);
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
         Get.off(()=>NuggetsSettings());
       }else {
-        Get.context!.loaderOverlay.hide();
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
         final errorMessage = result["error"][0];
         alertBar(Get.context!, errorMessage, AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
-      }}).onError((error, stackTrace) {
-      Get.context!.loaderOverlay.hide();
-      alertBar(Get.context!, error.toString(), AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
-    }).timeout(Duration(seconds: 20), onTimeout: (){
-      Get.context!.loaderOverlay.hide();
+      }}).timeout(Duration(seconds: 20), onTimeout: (){
+      CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
       alertBar(Get.context!, "Network TimeOut! Please try again",  AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
-    }).onError((error, stackTrace) {
-      Get.context!.loaderOverlay.hide();
-      alertBar(Get.context!, error.toString(), AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
     });
   }
 

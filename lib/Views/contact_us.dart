@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leadership_nuggets/Constants/AppTheme.dart';
-import 'package:leadership_nuggets/Views/dashboard.dart';
+import 'package:leadership_nuggets/Controllers/contact_us_controller.dart';
 import 'package:leadership_nuggets/Widgets/custom_button.dart';
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
@@ -11,9 +11,20 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController _messageController = TextEditingController();
+  final _controller = Get.put(ContactAdminController());
+
+
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea( top: false, bottom: false,child: Scaffold(resizeToAvoidBottomInset: false,
+    return SafeArea( top: false, bottom: false,child: Scaffold(resizeToAvoidBottomInset: false, key: scaffoldKey,
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: (){Get.back();},color: AppTheme.black,),
         backgroundColor: Colors.transparent, elevation: 0.0, centerTitle: false,
@@ -36,16 +47,20 @@ class _ContactUsState extends State<ContactUs> {
                 SizedBox(height: 10,),
                 Container(width: MediaQuery.of(context).size.width, height: 202,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), border: Border.all(color: AppTheme.grey.withOpacity(0.5), width: 1)),
-                  child: Expanded(child: Padding(
+                  child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextField( maxLines: 10, cursorHeight: 24, cursorColor: AppTheme.black, decoration: InputDecoration(border: InputBorder.none,)),
-                  )),),
+                    child: TextFormField( maxLines: 10, cursorHeight: 24, cursorColor: AppTheme.black, decoration: InputDecoration(border: InputBorder.none,), controller: _messageController, onChanged: (value){
+                      setState(() {
+                        _controller.message = value;
+                      });
+                    },),
+                  ),),
                 SizedBox(height: 42,),
                 Padding(padding: const EdgeInsets.symmetric(horizontal: 52.0),
-                  child: CustomButton(onPressed: (){Get.off(()=>DashBoard());},
+                  child: CustomButton(onPressed: ()=>_controller.contactUs(),
                     buttonText: "Send", borderColor: AppTheme.green, buttonHeight: 55,
                     buttonWidth: double.maxFinite, decorationColor: AppTheme.green, buttonRadius: 15,),),
-                SizedBox(height: 300,),
+                SizedBox(height: 350,),
               ],
             ),
           ),

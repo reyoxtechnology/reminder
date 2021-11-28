@@ -9,18 +9,24 @@ class NuggetReminderScreen extends StatefulWidget {
 }
 
 class _NuggetReminderScreenState extends State<NuggetReminderScreen> {
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    print(picked);
+  TimeOfDay? selectedTime = TimeOfDay.now();
+
+  _selectTime(BuildContext context) async {
+    final TimeOfDay? timeOfDay = await showTimePicker(context: context, initialTime: selectedTime!,
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if(timeOfDay != null && timeOfDay != selectedTime) {
+      setState(() {
+        selectedTime = timeOfDay;
+      });
+    }
   }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
+    return SafeArea(top: false, bottom: false,
+      child: Scaffold( resizeToAvoidBottomInset: false,
+          appBar: AppBar(centerTitle: true,
             title: Text("Nugget Reminder", style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.w600, fontSize: 30),),
             backgroundColor: AppTheme.primary, elevation: 0.0,
             leading: GestureDetector(
@@ -47,7 +53,7 @@ class _NuggetReminderScreenState extends State<NuggetReminderScreen> {
                 SizedBox(height: 5,),
                 Text("Everybody", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppTheme.white, fontFamily: "DMSans" ),),
                 SizedBox(height: 5,),
-                Text("06:00PM", style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600, color: AppTheme.white, fontFamily: "OpenSans" ),)
+                Text("${selectedTime!.format(context)}", style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600, color: AppTheme.white, fontFamily: "OpenSans" ),)
               ],
           ),
           ),

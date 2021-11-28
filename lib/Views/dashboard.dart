@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:leadership_nuggets/Binding/dashboard_binding.dart';
+import 'package:leadership_nuggets/Binding/update_profile_binding.dart';
 import 'package:leadership_nuggets/Constants/AppTheme.dart';
 import 'package:leadership_nuggets/Views/categories.dart';
 import 'package:leadership_nuggets/Views/contact_us.dart';
@@ -7,10 +9,10 @@ import 'package:leadership_nuggets/Views/edit_profile.dart';
 import 'package:leadership_nuggets/Views/favourite_nugget.dart';
 import 'package:leadership_nuggets/Views/nugget.dart';
 import 'package:leadership_nuggets/Views/nugget_reminder.dart';
-import 'package:leadership_nuggets/Views/nugget_setting.dart';
 import 'package:leadership_nuggets/Views/rate_us.dart';
 import 'package:leadership_nuggets/Views/subscription.dart';
 import 'package:leadership_nuggets/Widgets/custom_picture_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -25,7 +27,7 @@ class _DashBoardState extends State<DashBoard> {
 _navigation(int index) {
     String title = dbOptions[index]["title"]!;
     switch(title) {
-      case "Nuggets": {Get.to(()=>Nuggets());}
+      case "Nuggets": {Get.to(()=>Nuggets(), binding: DashBoardBinding());}
       break;
       case "Categories": {Get.to(()=>CategoriesScreen());}
       break;
@@ -45,6 +47,21 @@ _navigation(int index) {
       break;
     }
   }
+  var _firstName;
+  void initUserData() async {
+    final SharedPreferences userdata = await SharedPreferences.getInstance();
+    setState(() {
+      _firstName = (userdata.getString("userName"));
+    });
+  }
+
+
+  @override
+  void initState() {
+    initUserData();
+    super.initState();
+  }
+
   final dbOptions = [
     {"image": "assets/nuggets.png", "title": "Nuggets"},
     {"image": "assets/categories.png", "title": "Categories"},
@@ -64,14 +81,14 @@ _navigation(int index) {
             leading: Icon(Icons.menu),
             iconTheme: IconThemeData(color: AppTheme.black),
             actions: [
-              GestureDetector(onTap: (){Get.to(()=>EditProfile());},
+              GestureDetector(onTap: (){Get.to(()=>EditProfile(), binding: UpdateProfileBinding());},
                 child: CircleAvatar(backgroundColor: AppTheme.black, radius: 15, child: Icon(Icons.person, color: AppTheme.white,),),),
               Image.asset("assets/notification.png"),],),
           body: Padding(padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20,),
-                Text("Welcome, Charles.", style: AppTheme.header,),
+                Text("Welcome, ${_firstName.toString().split(" ").first}", style: AppTheme.header,),
                 SizedBox(height: 30,),
                 GestureDetector(onTap: (){
                   Get.to(()=>Subscription());

@@ -19,12 +19,8 @@ class _RateUsState extends State<RateUs> {
           body: Container(height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: <Color>[
-                  AppTheme.primary,
-                  AppTheme.darkGreen
-                ],
+                begin: Alignment.topRight, end: Alignment.bottomLeft,
+                colors: <Color>[AppTheme.primary, AppTheme.darkGreen],
               ),
             ),
             child: Padding(padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 49.0),

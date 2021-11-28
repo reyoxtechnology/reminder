@@ -5,19 +5,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:leadership_nuggets/Constants/AppTheme.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:leadership_nuggets/Views/dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Onboarding/onboarding.dart';
 import 'dart:io';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  var isLoggedIn = (prefs.getBool("isLoggedIn") ?? false);
   Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
-  ]).then((_) => runApp(MyApp()));
+  ]).then((_) => runApp(MyApp(isLoggedIn)));
 }
 
 class MyApp extends StatelessWidget {
+  final bool? isLoggedIn;
+  MyApp(this.isLoggedIn);
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = ThemeData();
@@ -36,7 +42,9 @@ class MyApp extends StatelessWidget {
           return GetMaterialApp(
               debugShowCheckedModeBanner: false,
               theme: theme.copyWith(colorScheme: theme.colorScheme.copyWith(primary: AppTheme.primary, secondary: AppTheme.secondary)),
-              home: OnBoardingScreen()
+              home: isLoggedIn == false ?
+              OnBoardingScreen()
+                  : DashBoard(),
           );
         }
     );

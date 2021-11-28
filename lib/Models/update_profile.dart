@@ -1,46 +1,42 @@
 // To parse this JSON data, do
 //
-//     final loginModelResponse = loginModelResponseFromJson(jsonString);
+//     final updateProfileModelResponse = updateProfileModelResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-LoginModelResponse loginModelResponseFromJson(String str) => LoginModelResponse.fromJson(json.decode(str));
+UpdateProfileModelResponse updateProfileModelResponseFromJson(String str) => UpdateProfileModelResponse.fromJson(json.decode(str));
 
-String loginModelResponseToJson(LoginModelResponse data) => json.encode(data.toJson());
+String updateProfileModelResponseToJson(UpdateProfileModelResponse data) => json.encode(data.toJson());
 
-class LoginModelResponse {
-  LoginModelResponse({
+class UpdateProfileModelResponse {
+  UpdateProfileModelResponse({
     required this.message,
-    required this.user,
-    required this.token,
+    required this.data,
   });
 
   String message;
-  User user;
-  String token;
+  Data? data;
 
-  factory LoginModelResponse.fromJson(Map<String, dynamic> json) => LoginModelResponse(
+  factory UpdateProfileModelResponse.fromJson(Map<String, dynamic> json) => UpdateProfileModelResponse(
     message: json["message"],
-    user: User.fromJson(json["user"]),
-    token: json["token"],
+    data: json["data"] == null ?  null : Data.fromJson(json["data"]),
   );
 
   Map<String, dynamic> toJson() => {
     "message": message,
-    "user": user.toJson(),
-    "token": token,
+    "data": data!.toJson(),
   };
 }
 
-class User {
-  User({
+class Data {
+  Data({
     required this.id,
     required this.name,
     required this.email,
     this.provider,
     this.providerId,
     this.gender,
-    this.phoneNumber,
+    required this.phoneNumber,
     this.interests,
     required this.isAdmin,
     required this.remindTime,
@@ -60,7 +56,7 @@ class User {
   dynamic provider;
   dynamic providerId;
   dynamic gender;
-  dynamic phoneNumber;
+  String phoneNumber;
   dynamic interests;
   int isAdmin;
   String remindTime;
@@ -73,7 +69,7 @@ class User {
   DateTime createdAt;
   DateTime updatedAt;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
     name: json["name"],
     email: json["email"],

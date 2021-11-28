@@ -8,6 +8,7 @@ import 'package:leadership_nuggets/Constants/AppTheme.dart';
 import 'package:leadership_nuggets/Models/create_account_model.dart';
 import 'package:leadership_nuggets/Services/http_client.dart';
 import 'package:leadership_nuggets/Utils/flush_bar_helper.dart';
+import 'package:leadership_nuggets/Utils/progress_dialog_helper.dart';
 import 'package:leadership_nuggets/Views/nugget_setting.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,7 +48,7 @@ class GoogleAuthController extends GetxController{
 
   signInWithGoogle() async{
     SharedPreferences signUpUserData = await SharedPreferences.getInstance();
-    Get.context!.loaderOverlay.show();
+    CustomProgressDialog().showDialog(Get.context!, "Loading...");
     await signWithGoogle().then((UserCredential? value) async{
       if (value != null){
         Map<String, dynamic> body = {"name": value.user!.displayName, "email": value.user!.email, "phone_number": "", "password": ""};
@@ -59,17 +60,17 @@ class GoogleAuthController extends GetxController{
             signUpUserData.setString("userEmail", response.data.email);
             signUpUserData.setString("userName", response.data.name);
             signUpUserData.setBool('isLoggedIn', true);
-            Get.context!.loaderOverlay.hide();
+            CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
             Get.off(()=>NuggetsSettings());
           } else {
-            Get.context!.loaderOverlay.hide();
+            CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
             final errorMessage = result["error"][0];
             alertBar(Get.context!, errorMessage, AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));}
         }).onError((error, stackTrace) {
-          Get.context!.loaderOverlay.hide();
+          CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
           alertBar(Get.context!, error.toString(), AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
         }).timeout(Duration(seconds: 20), onTimeout: (){
-          Get.context!.loaderOverlay.hide();
+          CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
           alertBar(Get.context!, "Network TimeOut! Please try again",  AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
         });} else {
         alertBar(Get.context!, "Invalid Credentials", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));

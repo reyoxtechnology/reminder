@@ -14,21 +14,19 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: buttonHeight ?? 45,
-      width: buttonWidth ?? double.maxFinite,
-      decoration: BoxDecoration(
-          color: decorationColor ?? AppTheme.white,
-          borderRadius: BorderRadius.all(Radius.circular(buttonRadius ?? 24.0)),
-          border: Border.all(color: borderColor ?? AppTheme.white)),
-      child: Row(
-        children: [
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              splashColor: Colors.white24,
-              borderRadius:  BorderRadius.all(Radius.circular( buttonRadius?? 24.0)),
-              onTap: onPressed,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: buttonHeight ?? 45,
+        width: buttonWidth ?? double.maxFinite,
+        decoration: BoxDecoration(
+            color: decorationColor ?? AppTheme.white,
+            borderRadius: BorderRadius.all(Radius.circular(buttonRadius ?? 24.0)),
+            border: Border.all(color: borderColor ?? AppTheme.white)),
+        child: Row( mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Material(
+              color: Colors.transparent,
               child: Center(
                 child: Text(
                   buttonText?? '',
@@ -37,8 +35,8 @@ class CustomButton extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

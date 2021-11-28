@@ -21,7 +21,8 @@ class EditProfileTile extends StatefulWidget {
   final String? Function(String?)? validator;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-  const EditProfileTile({Key? key, this.icon, this.title, this.onSaved, this.inputFormatters, this.focusedBorderColor, this.enabledBorderColor, this.controller, this.filled, this.hintText, this.hintColor, this.textInputAction, this.keyboardType, this.cursorHeight, this.labelText, this.textColor, this.cursorColor, this.validator, this.prefixIcon, this.suffixIcon}) : super(key: key);
+  final void Function(String)? onChanged;
+  const EditProfileTile({Key? key, this.icon, this.title, this.onSaved, this.inputFormatters, this.focusedBorderColor, this.enabledBorderColor, this.controller, this.filled, this.hintText, this.hintColor, this.textInputAction, this.keyboardType, this.cursorHeight, this.labelText, this.textColor, this.cursorColor, this.validator, this.prefixIcon, this.suffixIcon, this.onChanged}) : super(key: key);
 
   @override
   _EditProfileTileState createState() => _EditProfileTileState();
@@ -39,6 +40,7 @@ class _EditProfileTileState extends State<EditProfileTile> {
             children: [
             widget.icon!, SizedBox(width: 20,), Text(widget.title!, style: TextStyle(fontFamily: "Inter", fontWeight: FontWeight.w600, fontSize: 12),),
             Expanded(child: TextFormField(
+              onChanged: widget.onChanged,
               onSaved: widget.onSaved,
               inputFormatters: widget.inputFormatters,
               controller: widget.controller,

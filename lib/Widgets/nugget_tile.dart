@@ -19,7 +19,7 @@ class _NuggetTileState extends State<NuggetTile> {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(height: 62, width: 59, decoration: BoxDecoration(borderRadius: BorderRadius.circular(3)),
-            child: Image.asset(widget.image!),),
+            child: Image.asset(widget.image ?? "assets/communication_option.png"),),
           Column(children: [Padding(padding: const EdgeInsets.only(top: 20.0),
             child: ConstrainedBox(constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 2),child: Text(widget.title!, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, fontFamily: "DMSans"),)),
           ), SizedBox(height: 10,), Text(widget.subtitle!, style: TextStyle(fontFamily: "DMSans", fontWeight: FontWeight.w400),),],),
