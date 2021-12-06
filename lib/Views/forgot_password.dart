@@ -17,38 +17,22 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-        bottom: false,
-        child: Scaffold(
+    return SafeArea(top: false, bottom: false,
+        child: Scaffold(resizeToAvoidBottomInset: false,
+          appBar: AppBar(leading: IconButton(icon: Icon(Icons.arrow_back_ios),onPressed: (){Get.back();},),elevation: 0.0, backgroundColor: AppTheme.primary,),
           body: Stack(
             children: [
-              ClipPath(
-                clipper: ClipperHelper1(),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: AppTheme.primary,
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(10),
-                      )),
-                  child: Align(alignment: Alignment.centerLeft,child: Padding(
-                    padding: const EdgeInsets.only(left: 38.0, right: 38.0, top: 60.0, bottom: 0.0),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                            onTap: (){
-                              Get.back();
-                            },
-                            child: Container(width: 50, height: 50,
-                                child: Icon(Icons.arrow_back_ios, color: AppTheme.white,))),
-                        SizedBox(height: 50,),
-                        Text("Forgot \nPassword", style: TextStyle(fontSize: 50, fontFamily: "DMSans", color: AppTheme.white, fontWeight: FontWeight.w800),),
-                      ],
-                    ),
-                  )),
-                ),
+              Container(height: MediaQuery.of(context).size.height * 0.3, width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/container_clip.png"), fit: BoxFit.fill),borderRadius: BorderRadius.vertical(bottom: Radius.circular(10),), ),
+                child: Align(alignment: Alignment.centerLeft,child: Padding(
+                  padding: const EdgeInsets.only(left: 38.0, right: 38.0, top: 60.0, bottom: 0.0),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10,),
+                      Text("Forgot \nPassword", style: TextStyle(fontSize: 50, fontFamily: "DMSans", color: AppTheme.white, fontWeight: FontWeight.w800),),
+                    ],
+                  ),
+                )),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 40),

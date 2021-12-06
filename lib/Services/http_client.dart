@@ -14,4 +14,8 @@ class HttpClient{
     final response = await put(url,headers: headers, body: jsonEncode(body));
     return response;
   }
+  Future <Response> deleteMethod(Map<String, String>? headers, Uri url) async {
+    final response = await delete(url,headers: headers);
+    return response;
+  }
 }

@@ -17,7 +17,7 @@ class CreateAccountController extends GetxController{
   String? password;
   String? phoneNumber;
 
-  var url = Uri.parse("https://reminder.tbmholdingltd.com/api/register");
+  var url = Uri.parse("https://reminder.bitcash.ng/api/register");
 
   Map<String, String> headers = {
     "Content-Type": "application/json", "Accept": "application/json"
@@ -54,7 +54,7 @@ class CreateAccountController extends GetxController{
         signUpUserData.setString("gender", "");
         signUpUserData.setBool('isLoggedIn', true);
         CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
-        Get.off(()=>NuggetsSettings());
+        Get.offAll(()=>NuggetsSettings());
       }else {
         CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
         final errorMessage = result["error"][0];

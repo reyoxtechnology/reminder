@@ -10,7 +10,6 @@ import 'package:leadership_nuggets/Services/http_client.dart';
 import 'package:leadership_nuggets/Utils/flush_bar_helper.dart';
 import 'package:leadership_nuggets/Utils/progress_dialog_helper.dart';
 import 'package:leadership_nuggets/Views/nugget_setting.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -39,7 +38,7 @@ class GoogleAuthController extends GetxController{
   }
 
 
-  var url = Uri.parse("https://reminder.tbmholdingltd.com/api/register");
+  var url = Uri.parse("https://reminder.bitcash.ng/api/register");
 
 
   Map<String, String> headers = {

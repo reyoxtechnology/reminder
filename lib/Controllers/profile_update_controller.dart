@@ -41,7 +41,7 @@ class UpdateProfileController extends GetxController{
 
 
 
-  var url = Uri.parse("https://reminder.tbmholdingltd.com/api/profile/update");
+  var url = Uri.parse("https://reminder.bitcash.ng/api/profile/update");
 
   updateUserProfile() async{
     if(name!.isEmpty && email!.isEmpty && phoneNumber!.isEmpty && password!.isEmpty && interest!.isEmpty && gender!.isEmpty){

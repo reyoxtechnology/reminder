@@ -43,7 +43,7 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
- var url = Uri.parse("https://reminder.tbmholdingltd.com/api/profile/update");
+ var url = Uri.parse("https://reminder.bitcash.ng/profile/update");
  updateUserProfile() async{
    if(name!.isEmpty && email!.isEmpty && phoneNumber!.isEmpty && password!.isEmpty && interest!.isEmpty && gender!.isEmpty){
      alertBar(Get.context!, "Please Update all Fields", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));

@@ -1,26 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leadership_nuggets/Constants/AppTheme.dart';
+import 'package:leadership_nuggets/Controllers/update_reminder_time_controller.dart';
+
 class NuggetReminderScreen extends StatefulWidget {
-  const NuggetReminderScreen({Key? key}) : super(key: key);
+  late String? selectedTime;
+  NuggetReminderScreen({Key? key, this.selectedTime}) : super(key: key);
 
   @override
   _NuggetReminderScreenState createState() => _NuggetReminderScreenState();
 }
 
 class _NuggetReminderScreenState extends State<NuggetReminderScreen> {
+
+  final _controller = Get.put(UpdateReminderTimeController());
   TimeOfDay? selectedTime = TimeOfDay.now();
 
   _selectTime(BuildContext context) async {
     final TimeOfDay? timeOfDay = await showTimePicker(context: context, initialTime: selectedTime!,
+      builder: (BuildContext context, Widget? child){
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false), child: child!,);
+      },
       initialEntryMode: TimePickerEntryMode.dial,
     );
     if(timeOfDay != null && timeOfDay != selectedTime) {
       setState(() {
         selectedTime = timeOfDay;
+        widget.selectedTime = selectedTime.toString();
       });
+      _controller.setReminderTime(selectedTime!.format(context));
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

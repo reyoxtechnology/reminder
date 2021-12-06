@@ -13,7 +13,7 @@ class NuggetController extends GetxController{
   var nuggetResponse = <Nugget>[].obs;
   RxBool isLoading = false.obs;
 
-  var url = Uri.parse("https://reminder.tbmholdingltd.com/api/nugget");
+  var url = Uri.parse("https://reminder.bitcash.ng/api/nugget");
 
   getAllNuggets() async{
     showLoading();
@@ -27,7 +27,7 @@ class NuggetController extends GetxController{
         nuggetResponse.value = getAllNuggetsModelResponseFromJson(value.body).data.data;
       } else{
         final errorMessage = result["message"];
-        alertBar(Get.context!, errorMessage, AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+        print(errorMessage);
       }
     }).catchError((error){
       print(error);

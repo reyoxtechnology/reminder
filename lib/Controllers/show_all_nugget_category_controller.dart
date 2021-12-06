@@ -12,9 +12,9 @@ class AllNuggetCategories extends GetxController{
   //RxList<NuggetCategories>? allNuggetInACategoryResponse;
   var allNuggetInACategoryResponse = <NuggetCategories>[].obs;
   RxBool isLoading = false.obs;
-  var url = Uri.parse("https://reminder.tbmholdingltd.com/api/nuggets/category");
+  var url = Uri.parse("https://reminder.bitcash.ng/api/nuggets/category");
 
-  getAllNuggetsInACategory() async{
+  getAllNuggetsCategory() async{
     showLoading();
     SharedPreferences getToken = await SharedPreferences.getInstance();
     final token = getToken.getString("token");
@@ -24,9 +24,11 @@ class AllNuggetCategories extends GetxController{
       if (value.statusCode == 200 || value.statusCode == 201){
         hideLoading();
         allNuggetInACategoryResponse.value = showAllNuggetCategoriesFromJson(value.body).data;
+        print(value.statusCode);
       } else{
+        print(value.statusCode);
         final errorMessage = result["message"];
-        alertBar(Get.context!, errorMessage, AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+        alertBar(Get.context!, errorMessage, AppTheme.secondary, false, Icon(Icons.error_outline, color: AppTheme.white,));
       }
     }).catchError((error){
       print(error);
@@ -43,7 +45,7 @@ class AllNuggetCategories extends GetxController{
 
   @override
   void onInit() {
-    getAllNuggetsInACategory();
+    getAllNuggetsCategory();
     print("This is the response $allNuggetInACategoryResponse");
     super.onInit();
   }

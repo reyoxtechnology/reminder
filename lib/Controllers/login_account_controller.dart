@@ -14,7 +14,7 @@ class LoginController extends GetxController{
   String? email;
   String? password;
 
-  var url = Uri.parse("https://reminder.tbmholdingltd.com/api/login");
+  var url = Uri.parse("https://reminder.bitcash.ng/api/login");
 
   Map<String, String> headers = {
     "Content-Type": "application/json", "Accept": "application/json"
@@ -44,11 +44,11 @@ class LoginController extends GetxController{
         signUpUserData.setString("userPassword", password!);
         signUpUserData.setBool('isLoggedIn', true);
         CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
-        Get.off(()=>NuggetsSettings());
+        Get.offAll(()=>NuggetsSettings());
       } else {
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
         final errorMessage = result["message"];
        alertBar(Get.context!, errorMessage, AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
-        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
       }
     }).onError((error, stackTrace) {
       CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);

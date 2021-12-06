@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:leadership_nuggets/Constants/AppTheme.dart';
+import 'package:leadership_nuggets/Services/http_client.dart';
+import 'package:leadership_nuggets/Utils/flush_bar_helper.dart';
+import 'package:leadership_nuggets/Utils/progress_dialog_helper.dart';
+import 'package:leadership_nuggets/Views/dashboard.dart';
 import 'package:leadership_nuggets/Widgets/custom_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class RateUs extends StatefulWidget {
   const RateUs({Key? key}) : super(key: key);
 
@@ -10,6 +15,106 @@ class RateUs extends StatefulWidget {
 }
 
 class _RateUsState extends State<RateUs> {
+
+
+  String likeRating = "Like";
+  String disLikeRating = "Dislike";
+  String loveRating = "Love";
+
+
+  String? captureLikeRateValue = "";
+  String? captureLoveRateValue = "";
+  String? captureDislikeRateValue = "";
+  bool isLikeSelected = false;
+  bool isLoveSelected = false;
+  bool isDislikeSelected = false;
+
+
+  var url = Uri.parse("https://reminder.bitcash.ng/api/rating");
+
+
+  submitRating() async{
+    if (captureLoveRateValue == "" && captureDislikeRateValue == "" && captureLikeRateValue == "") {
+      alertBar(Get.context!, "No rating selected", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+    } else if (captureLoveRateValue == loveRating && captureDislikeRateValue == "" && captureLikeRateValue == ""){
+      Map<String, dynamic> body = {"rating": captureLoveRateValue};
+      SharedPreferences getToken = await SharedPreferences.getInstance();
+      final token = getToken.getString("token");
+      Map<String, String> headers = {"Content-Type": "application/json", "Accept": "application/json",  "Authorization" : "Bearer $token"};
+      CustomProgressDialog().showDialog(Get.context!, "Loading...");
+      await HttpClient().postMethod(headers, body, url).then((value){
+        if(value.statusCode == 200 || value.statusCode == 201) {
+          print(value.statusCode);
+          setState(() {
+            captureLoveRateValue = "";
+            isLoveSelected = false;
+          });
+          CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+          Get.off(()=>DashBoard());
+        } else {
+          CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+          alertBar(Get.context!, "Submission Failed", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+        }
+      }).onError((error, stackTrace) {
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+        print("This is the error here!!!$error");
+      }).timeout(Duration(seconds: 20), onTimeout: (){
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+        alertBar(Get.context!, "Network TimeOut! Please try again",  AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+      });
+    } else if(captureLoveRateValue == "" && captureDislikeRateValue == disLikeRating && captureLikeRateValue == ""){
+      Map<String, dynamic> body = {"rating": captureDislikeRateValue};
+      SharedPreferences getToken = await SharedPreferences.getInstance();
+      final token = getToken.getString("token");
+      Map<String, String> headers = {"Content-Type": "application/json", "Accept": "application/json",  "Authorization" : "Bearer $token"};
+      CustomProgressDialog().showDialog(Get.context!, "Loading...");
+      await HttpClient().postMethod(headers, body, url).then((value){
+        if(value.statusCode == 200 || value.statusCode == 201) {
+          setState(() {
+            captureDislikeRateValue = "";
+            isDislikeSelected = false;
+          });
+          CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+          Get.off(()=>DashBoard());
+        } else {
+          CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+          alertBar(Get.context!, "Submission Failed", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+        }
+      }).onError((error, stackTrace) {
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+        print("This is the error here!!!$error");
+      }).timeout(Duration(seconds: 20), onTimeout: (){
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+        alertBar(Get.context!, "Network TimeOut! Please try again",  AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+      });
+    } else if (captureLoveRateValue == "" && captureDislikeRateValue == "" && captureLikeRateValue == likeRating){
+      Map<String, dynamic> body = {"rating": captureDislikeRateValue};
+      SharedPreferences getToken = await SharedPreferences.getInstance();
+      final token = getToken.getString("token");
+      Map<String, String> headers = {"Content-Type": "application/json", "Accept": "application/json",  "Authorization" : "Bearer $token"};
+      CustomProgressDialog().showDialog(Get.context!, "Loading...");
+      await HttpClient().postMethod(headers, body, url).then((value){
+        if(value.statusCode == 200 || value.statusCode == 201) {
+          setState(() {
+            captureLikeRateValue = "";
+            isLikeSelected = false;
+          });
+          CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+          Get.off(()=>DashBoard());
+        } else {
+          CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+          alertBar(Get.context!, "Submission Failed", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+        }
+      }).onError((error, stackTrace) {
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+        print("This is the error here!!!$error");
+      }).timeout(Duration(seconds: 20), onTimeout: (){
+        CustomProgressDialog().popCustomProgressDialogDialog(Get.context!);
+        alertBar(Get.context!, "Network TimeOut! Please try again",  AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.error_outline, color: AppTheme.white,));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,9 +152,63 @@ class _RateUsState extends State<RateUs> {
                       Container(height: 60,width: MediaQuery.of(context).size.width / 1.8,
                       decoration: BoxDecoration(color: AppTheme.white, borderRadius: BorderRadius.circular(5)),
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                        Container(child: Image.asset("assets/Emoji.png"),),
-                        Container(child: Image.asset("assets/Emoji1.png"),),
-                        Container(child: Image.asset("assets/Emoji2.png"),),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              captureLikeRateValue = likeRating;
+                              captureDislikeRateValue = "";
+                              captureLoveRateValue = "";
+                              isLikeSelected = true;
+                            });
+                            if (captureLikeRateValue == likeRating && isLikeSelected == true) {
+                              alertBar(context, "Like Selected", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.check, color: AppTheme.white,));
+                              setState(() {
+                                isLoveSelected = false;
+                                isDislikeSelected = false;
+                              });
+                            } else {
+                              alertBar(context, "Like Deselected", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.check, color: AppTheme.white,));
+                            }
+                          },
+                            child: Container(child: Image.asset("assets/Emoji.png"),)),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              captureDislikeRateValue = disLikeRating;
+                              captureLoveRateValue = "";
+                              captureLikeRateValue = "";
+                              isDislikeSelected = true;
+                            });
+                            if (captureDislikeRateValue == disLikeRating && isDislikeSelected == true) {
+                              alertBar(context, "Like Selected", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.check, color: AppTheme.white,));
+                              setState(() {
+                                isLoveSelected = false;
+                                isLikeSelected = false;
+                              });
+                            } else {
+                              alertBar(context, "Like Deselected", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.check, color: AppTheme.white,));
+                            }
+                          },
+                            child: Container(child: Image.asset("assets/Emoji1.png"),)),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              captureLoveRateValue = loveRating;
+                              captureDislikeRateValue = "";
+                              captureLikeRateValue = "";
+                              isLoveSelected = true;
+                            });
+                            if(captureLoveRateValue == loveRating && isLoveSelected == true){
+                              alertBar(context, "Love Selected", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.check, color: AppTheme.white,));
+                              setState(() {
+                                isLikeSelected = false;
+                                isDislikeSelected = false;
+                              });
+                            }else{
+                              alertBar(context, "Love Deselected", AppTheme.secondary.withOpacity(0.3), false, Icon(Icons.check, color: AppTheme.white,));
+                            }
+                          },
+                            child: Container(child: Image.asset("assets/Emoji2.png"),)),
                       ],),),
                     ],
                   ),
@@ -58,7 +217,9 @@ class _RateUsState extends State<RateUs> {
                     children: [Text("Tap to Review", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.white, fontFamily: "Inter"),),],),
                   SizedBox(height: 154,),
                   Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [CustomButton(onPressed: (){}, decorationColor: AppTheme.secondary,borderColor: AppTheme.secondary,buttonWidth: MediaQuery.of(context).size.width / 1.5, buttonHeight: 52, buttonRadius: 5,textColor: AppTheme.white, buttonText: "Submit",),],
+                    children: [CustomButton(onPressed: (){
+                      submitRating();
+                    }, decorationColor: AppTheme.secondary,borderColor: AppTheme.secondary,buttonWidth: MediaQuery.of(context).size.width / 1.5, buttonHeight: 52, buttonRadius: 5,textColor: AppTheme.white, buttonText: "Submit",),],
                   ),
                 ],
               ),

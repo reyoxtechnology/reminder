@@ -25,6 +25,7 @@ class CustomButton extends StatelessWidget {
             border: Border.all(color: borderColor ?? AppTheme.white)),
         child: Row( mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             Material(
               color: Colors.transparent,
               child: Center(

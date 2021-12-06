@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:leadership_nuggets/Constants/AppTheme.dart';
 
 import 'dashboard.dart';
@@ -10,29 +11,20 @@ class NuggetsSettings extends StatefulWidget {
   _NuggetsSettingsState createState() => _NuggetsSettingsState();
 }
 class _NuggetsSettingsState extends State<NuggetsSettings> {
+  var newDt = DateFormat.yMMMEd().format(DateTime.now());
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-        bottom: false,
+    return SafeArea(top: false, bottom: false,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(80.0),
+          appBar: PreferredSize(preferredSize: const Size.fromHeight(80.0),
             child: Container(
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: <Color>[AppTheme.primary, AppTheme.primary],
-                  ),
+                  gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: <Color>[AppTheme.primary, AppTheme.primary],),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                child: Column(mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                    Padding(padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           IconButton(onPressed: (){
                             Navigator.of(context).pop();
@@ -41,7 +33,7 @@ class _NuggetsSettingsState extends State<NuggetsSettings> {
                           Container(child: Column(
                             children: [
                               Text("Today's Nugget" , textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),),
-                              Text("3rd-May-2021" , textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),),
+                              Text(newDt , textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: "Lato", color: AppTheme.white),),
                             ],
                           )),
                         ],
@@ -59,13 +51,9 @@ class _NuggetsSettingsState extends State<NuggetsSettings> {
                   elevation: 3,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                   child: Container(
-                    height: MediaQuery.of(context).size.height / 2.3,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 12),
+                    height: MediaQuery.of(context).size.height / 2.3, width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),),
+                    child: Padding(padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 12),
                       child: Column(
                         children: [
                           Text("Leadership Nugget", style: TextStyle(fontWeight: FontWeight.w800, fontFamily: "DMSans", fontSize: 24, color: AppTheme.darkGreen),),
@@ -87,24 +75,19 @@ class _NuggetsSettingsState extends State<NuggetsSettings> {
                 ),
               ),
               SizedBox(height: 48,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 35.0),
+              Padding(padding: const EdgeInsets.symmetric(horizontal: 35.0),
                 child: Column(
                   children: [
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2.6, height: 35,
+                        Container(width: MediaQuery.of(context).size.width / 2.6, height: 35,
                           decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(5),),
                         child: Row(mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.favorite_border, color: AppTheme.white,),
                             SizedBox(width: 5,),
-                            Text("Today's Nuggets", style: TextStyle(fontWeight: FontWeight.w400, fontFamily: "DMSans", color: AppTheme.white),)
-                          ],
-                        ),),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 2.6, height: 35,
+                            Text("Today's Nuggets", style: TextStyle(fontWeight: FontWeight.w400, fontFamily: "DMSans", color: AppTheme.white),)],),),
+                        Container(width: MediaQuery.of(context).size.width / 2.6, height: 35,
                           decoration: BoxDecoration(color: AppTheme.secondary, borderRadius: BorderRadius.circular(5),),
                         child: Row(mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -126,19 +109,15 @@ class _NuggetsSettingsState extends State<NuggetsSettings> {
                           decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(5),),
                           child: Row(mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.favorite_border, color: AppTheme.white,),
-                              SizedBox(width: 5,),
                               Text("Everyday", style: TextStyle(fontWeight: FontWeight.w400, fontFamily: "DMSans", color: AppTheme.white),)
                             ],
                           ),),
                         Container(
                           width: MediaQuery.of(context).size.width / 2.6, height: 35,
-                          decoration: BoxDecoration(color: AppTheme.secondary, borderRadius: BorderRadius.circular(5),),
+                          decoration: BoxDecoration(color: AppTheme.hash, borderRadius: BorderRadius.circular(5),),
                           child: Row(mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.share, color: AppTheme.white,),
-                              SizedBox(width: 5,),
-                              Text("6:30PM", style: TextStyle(fontWeight: FontWeight.w400, fontFamily: "DMSans", color: AppTheme.white),)
+                              Text("6:30PM", style: TextStyle(fontWeight: FontWeight.w400, fontFamily: "DMSans", color: AppTheme.black),)
                             ],
                           ),),
                       ],
