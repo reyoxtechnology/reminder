@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:leadership_nuggets/Constants/AppTheme.dart';
 import 'package:leadership_nuggets/Controllers/google_auth_controller.dart';
-import 'package:leadership_nuggets/Widgets/custom_button.dart';
-
 import 'login.dart';
+
+
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
 
@@ -19,28 +18,20 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-        bottom: false,
+    return SafeArea(top: false, bottom: false,
         child: Scaffold(backgroundColor: AppTheme.primary,
           body: Stack(
             children: [
-              Align(
-                alignment: Alignment.bottomCenter,child: Container(
+              Align(alignment: Alignment.bottomCenter,child: Container(
                 height: MediaQuery.of(context).size.height / 1.5, width: double.maxFinite,
                 decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(40), topRight: Radius.circular(40),), color: AppTheme.white),
                 child: Padding(padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: Column(
-                    children: [
+                  child: Column(children: [
                       SizedBox(height: 40,),
-                      Container(
-                        height: MediaQuery.of(context).size.width / 3,
-                        width: MediaQuery.of(context).size.width / 3,
+                      Container(height: MediaQuery.of(context).size.width / 3, width: MediaQuery.of(context).size.width / 3,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/logo.png")
-                          ),
-                        ),
+                            image: AssetImage("assets/logo.png")),),
                       ),
                       SizedBox(height: 15,),
                       Text("Leadership Guardian", style: AppTheme.headline,),
